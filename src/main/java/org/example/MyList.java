@@ -115,6 +115,11 @@ public class MyList<E> {
      * @return
      */
     public int findFirst(E element) {
+        for (int i = 0; i < elements.length; i++) {
+            if (elements[i].equals(element)) {
+                return i;
+            }
+        }
         return -1;
     }
 
@@ -126,7 +131,13 @@ public class MyList<E> {
      * @return
      */
     public int findLast(E element) {
-        return -1;
+        int index = -1;
+        for (int i = 0; i < elements.length; i++) {
+            if (elements[i].equals(element)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     public void clear() {

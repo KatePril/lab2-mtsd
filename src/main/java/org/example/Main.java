@@ -26,8 +26,12 @@ public class Main {
         System.out.println(list);
         list.reverse();
         System.out.println(list);
-        System.out.println(list.get(0));
 
+        System.out.println();
+        System.out.println(list.get(0));
+        list.append("d");
+        System.out.println(list.findFirst("d"));
+        System.out.println(list.findLast("d"));
     }
 
     public static String getGreeting() {
