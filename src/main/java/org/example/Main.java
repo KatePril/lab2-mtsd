@@ -32,6 +32,9 @@ public class Main {
         list.append("d");
         System.out.println(list.findFirst("d"));
         System.out.println(list.findLast("d"));
+
+        list.extend(new MyList<>("a", "b", "c"));
+        System.out.println(list);
     }
 
     public static String getGreeting() {

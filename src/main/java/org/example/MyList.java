@@ -107,13 +107,6 @@ public class MyList<E> {
         elements = newElements;
     }
 
-    /**
-     * Операцію пошуку елемента за значенням з голови списку.
-     * Метод повинен знайти перший елемент у списку, що дорівнює шуканому та повернути його позицію.
-     * Нумерація елементів списку починається з 0. У випадку відсутності шуканого елемента у списку, метод повертає -1
-     * @param element
-     * @return
-     */
     public int findFirst(E element) {
         for (int i = 0; i < elements.length; i++) {
             if (elements[i].equals(element)) {
@@ -123,13 +116,6 @@ public class MyList<E> {
         return -1;
     }
 
-    /**
-     * Операцію пошуку елемента за значенням з хвоста списку.
-     * Метод повинен знайти останній елемент у списку, що дорівнює шуканому та повернути його позицію.
-     * Нумерація елементів списку починається з 0. У випадку відсутності шуканого елемента у списку, метод повертає -1.
-     * @param element
-     * @return
-     */
     public int findLast(E element) {
         int index = -1;
         for (int i = 0; i < elements.length; i++) {
@@ -144,11 +130,12 @@ public class MyList<E> {
         elements = (E[]) new Object[0];
     }
 
-    /**
-     * Операцію розширення списку. Метод приймає інший список та додає до поточного списку усі елементи останнього.
-     * При цьому подальші зміни в другий список не повинні впливати на перший.
-     */
-    public void extend() {}
+    public void extend(MyList<E> list) {
+        E[] newElements = (E[]) new Object[elements.length + list.length()];
+        System.arraycopy(elements, 0, newElements, 0, elements.length);
+        if (list.length() >= 0) System.arraycopy(list.elements, 0, newElements, 0 + elements.length, list.length());
+        elements = newElements;
+    }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= length()) {
