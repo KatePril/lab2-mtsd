@@ -17,8 +17,16 @@ public class Main {
         System.out.println(list);
         System.out.println(list.delete(0));
         System.out.println(list);
-        list.clear();
+
+        System.out.println();
+        MyList<String> secondList = list.clone();
+        System.out.println(secondList);
+        secondList.clear();
+        System.out.println(secondList);
         System.out.println(list);
+        list.reverse();
+        System.out.println(list);
+        System.out.println(list.get(0));
 
     }
 

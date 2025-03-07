@@ -62,13 +62,6 @@ public class MyList<E> {
         return tmp;
     }
 
-    /**
-     * Операцію видалення елементів зі списку за значенням.
-     * Метод видаляє зі списку усі елементи, які за значенням відповідають шуканому.
-     * У випадку передачі елемента, який у списку відсутній, жодні зміни до списку не застосовуються.
-     * @param element
-     * @return
-     */
     public E[] deleteAll(E element) {
         int occurrencesNum = 0;
         for (int i = 0; i < elements.length; i++) {
@@ -95,29 +88,24 @@ public class MyList<E> {
         return deletedElements;
     }
 
-    /**
-     * Операцію отримання елементу списку на довільній позиції
-     * @param index
-     * @return
-     */
     public E get(int index) {
         checkIndex(index);
         return elements[index];
     }
 
-    /**
-     * Операцію копіювання списку. При виклику повинен створити копію поточного списку та повернути її.
-     * @return
-     */
     public MyList<E> clone() {
-        return null;
+        E[] newElements = (E[]) new Object[elements.length];
+        System.arraycopy(elements, 0, newElements, 0, elements.length);
+        return new MyList<>(newElements);
     }
 
-    /**
-     * Операцію обернення списку. Метод повинен змінити порядок елементів у поточному списку задом наперед.
-     * Елемент, що був останнім стане першим, передостаннім — другим, … а перший — останнім.
-     */
-    public void reverse() {}
+    public void reverse() {
+        E[] newElements = (E[]) new Object[elements.length];
+        for (int i = 0; i < elements.length; i++) {
+            newElements[i] = elements[elements.length - 1 - i];
+        }
+        elements = newElements;
+    }
 
     /**
      * Операцію пошуку елемента за значенням з голови списку.
