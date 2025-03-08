@@ -47,20 +47,20 @@ public class MyList<E> {
 
     public void insert(E element, int index) {
         checkIndex(index);
-        E[] newElements = (E[]) new Object[elements.length + 1];
-        for (int i = 0; i < elements.length; i++) {
-            if (i < index) {
-                newElements[i] = elements[i];
-            }
-            if (i == index) {
-                newElements[i] = element;
-                newElements[i+1] = elements[i];
-            }
-            if (i > index) {
-                newElements[i+1] = elements[i];
-            }
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentIndex < index) {
+            currentNode = currentNode.next;
+            currentIndex++;
         }
-        elements = newElements;
+
+        Node<E> newNode = new Node<>(element);
+        newNode.next = currentNode;
+        newNode.prev = currentNode.prev;
+        currentNode.prev.next = newNode;
+        currentNode.prev = newNode;
+
     }
 
     public E delete(int index) {
