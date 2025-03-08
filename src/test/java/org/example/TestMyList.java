@@ -96,4 +96,31 @@ public class TestMyList {
         assertEquals("d", list.get(2));
     }
 
+    @Test
+    public void testClear() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+
+        list.clear();
+        assertEquals(0, list.length());
+    }
+
+    @Test
+    public void testClone() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+
+        MyList<String> clone = list.clone();
+        assertEquals("a", clone.get(0));
+        assertEquals("b", clone.get(1));
+
+        list.clear();
+        assertEquals(0, list.length());
+        assertEquals(2, clone.length());
+    }
+
+
 }
