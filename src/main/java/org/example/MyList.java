@@ -49,7 +49,7 @@ public class MyList<E> {
         newNode.setPrev(currentNode.getPrev());
         currentNode.getPrev().setNext(newNode);
         currentNode.setPrev(newNode);
-
+        size++;
     }
 
     public E delete(int index) {
@@ -57,9 +57,9 @@ public class MyList<E> {
         Node<E> currentNode = getCurrentNode(index);
         currentNode.getPrev().setNext(currentNode.getNext());
         currentNode.getNext().setPrev(currentNode.getPrev());
+        size--;
 
         return currentNode.getValue();
-
     }
 
     public E[] deleteAll(E element) {
