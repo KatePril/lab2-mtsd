@@ -148,10 +148,9 @@ public class MyList<E> {
     }
 
     public void extend(MyList<E> list) {
-        E[] newElements = (E[]) new Object[elements.length + list.length()];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
-        if (list.length() >= 0) System.arraycopy(list.elements, 0, newElements, 0 + elements.length, list.length());
-        elements = newElements;
+        for (int i = 0; i < list.length(); i++) {
+            append(list.get(i));
+        }
     }
 
     private void checkIndex(int index) {
