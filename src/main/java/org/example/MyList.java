@@ -15,8 +15,10 @@ public class MyList<E> {
     }
 
     @SafeVarargs
-    public MyList(E... elements) {
-        this.elements = elements;
+    public MyList(E... els) {
+        for (E el : els) {
+            append(el);
+        }
     }
 
     public int length() {
@@ -37,12 +39,6 @@ public class MyList<E> {
             last.setPrev(newNode);
         }
         size++;
-
-        // TODO delete the code below
-        E[] newElements = (E[]) new Object[elements.length + 1];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
-        newElements[elements.length] = element;
-        elements = newElements;
     }
 
     public void insert(E element, int index) {
@@ -100,8 +96,10 @@ public class MyList<E> {
 
 
     public MyList<E> clone() {
-        E[] newElements = (E[]) new Object[elements.length];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
+        E[] newElements = (E[]) new Object[length()];
+        for (int i = 0; i < length(); i++) {
+            newElements[i] = get(i);
+        }
         return new MyList<>(newElements);
     }
 
@@ -133,7 +131,9 @@ public class MyList<E> {
     }
 
     public void clear() {
-        elements = (E[]) new Object[0];
+        size = 0;
+        first = null;
+        last = null;
     }
 
     public void extend(MyList<E> list) {
