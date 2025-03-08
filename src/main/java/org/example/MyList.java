@@ -47,13 +47,7 @@ public class MyList<E> {
 
     public void insert(E element, int index) {
         checkIndex(index);
-        int currentIndex = 0;
-        Node<E> currentNode = first;
-
-        while (currentIndex < index) {
-            currentNode = currentNode.next;
-            currentIndex++;
-        }
+        Node<E> currentNode = getCurrentNode(index);
 
         Node<E> newNode = new Node<>(element);
         newNode.next = currentNode;
@@ -108,15 +102,7 @@ public class MyList<E> {
 
     public E get(int index) {
         checkIndex(index);
-        int currentIndex = 0;
-        Node<E> currentNode = first;
-
-        while (currentIndex < index) {
-            currentNode = currentNode.next;
-            currentIndex++;
-        }
-
-        return currentNode.value;
+        return getCurrentNode(index).value;
     }
 
 
@@ -168,6 +154,18 @@ public class MyList<E> {
         if (index < 0 || index >= length()) {
             throw new IndexOutOfBoundsException();
         }
+    }
+
+    private Node<E> getCurrentNode(int index) {
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentIndex < index) {
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+
+        return currentNode;
     }
 
     public String toString() {
