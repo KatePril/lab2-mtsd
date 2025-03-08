@@ -33,10 +33,10 @@ public class MyList<E> {
             last.setPrev(first);
         } else {
             Node<E> newNode = new Node<>(element);
-            newNode.setNext(last);
-            newNode.setPrev(last.getPrev());
-            last.getPrev().setNext(newNode);
-            last.setPrev(newNode);
+
+            last.setNext(newNode);
+            newNode.setPrev(last);
+            last = newNode;
         }
         size++;
     }
@@ -112,22 +112,33 @@ public class MyList<E> {
     }
 
     public int findFirst(E element) {
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                return i;
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentNode != null) {
+            if (currentNode.getValue().equals(element)) {
+                return currentIndex;
             }
+            currentIndex++;
+            currentNode = currentNode.getNext();
         }
+
         return -1;
     }
 
     public int findLast(E element) {
-        int index = -1;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                index = i;
+        int currentIndex = length() - 1;
+        Node<E> currentNode = last;
+
+        while (currentIndex >= 0) {
+            if (currentNode.getValue().equals(element)) {
+                return currentIndex;
             }
+            currentIndex--;
+            currentNode = currentNode.getPrev();
         }
-        return index;
+
+        return currentIndex;
     }
 
     public void clear() {
