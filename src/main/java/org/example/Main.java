@@ -36,8 +36,4 @@ public class Main {
         list.extend(new MyList<>("a", "b", "c"));
         System.out.println(list);
     }
-
-    public static String getGreeting() {
-        return "Hello World!";
-    }
 }
