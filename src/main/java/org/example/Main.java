@@ -9,31 +9,33 @@ public class Main {
         list.append("b");
         list.append("d");
         list.append("e");
-        System.out.println(list);
+        System.out.println("append: " + list);
         list.insert("c", 2);
         list.insert("b", 4);
+        System.out.println("insert: " + list);
+        System.out.println("deleteAll: " + Arrays.toString(list.deleteAll("b")));
         System.out.println(list);
-        System.out.println(Arrays.toString(list.deleteAll("b")));
+        System.out.println("delete: " + list.delete(1));
         System.out.println(list);
-        System.out.println(list.delete(0));
-        System.out.println(list);
+        System.out.println("get: " + list.get(0));
 
         System.out.println();
         MyList<String> secondList = list.clone();
+        System.out.println("cloned list: " + secondList);
+        list.clear();
+        System.out.println("cleared: " + list);
         System.out.println(secondList);
-        secondList.clear();
-        System.out.println(secondList);
-        System.out.println(list);
-        list.reverse();
-        System.out.println(list);
+        secondList.reverse();
+        System.out.println("reversed: " + secondList);
 
         System.out.println();
-        System.out.println(list.get(0));
-        list.append("d");
-        System.out.println(list.findFirst("d"));
-        System.out.println(list.findLast("d"));
 
-        list.extend(new MyList<>("a", "b", "c"));
-        System.out.println(list);
+        secondList.append("d");
+        System.out.println("append: " + secondList);
+        System.out.println(secondList.findFirst("d"));
+        System.out.println(secondList.findLast("d"));
+
+        secondList.extend(new MyList<>("a", "b", "c"));
+        System.out.println(secondList);
     }
 }

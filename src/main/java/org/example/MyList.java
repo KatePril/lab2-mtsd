@@ -54,12 +54,19 @@ public class MyList<E> {
 
     public E delete(int index) {
         checkIndex(index);
-        Node<E> currentNode = getCurrentNode(index);
-        currentNode.getPrev().setNext(currentNode.getNext());
-        currentNode.getNext().setPrev(currentNode.getPrev());
+        E value = first.getValue();
+        if (index == 0) {
+            first = first.getNext();
+        } else {
+            Node<E> currentNode = getCurrentNode(index);
+            value = currentNode.getValue();
+
+            currentNode.getPrev().setNext(currentNode.getNext());
+            currentNode.getNext().setPrev(currentNode.getPrev());
+        }
         size--;
 
-        return currentNode.getValue();
+        return value;
     }
 
     public E[] deleteAll(E element) {
