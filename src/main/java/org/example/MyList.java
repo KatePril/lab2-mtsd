@@ -18,15 +18,14 @@ public class MyList<E> {
         return elements.length;
     }
 
-    public boolean append(E element) {
+    public void append(E element) {
         E[] newElements = (E[]) new Object[elements.length + 1];
         System.arraycopy(elements, 0, newElements, 0, elements.length);
         newElements[elements.length] = element;
         elements = newElements;
-        return true;
     }
 
-    public boolean insert(E element, int index) {
+    public void insert(E element, int index) {
         checkIndex(index);
         E[] newElements = (E[]) new Object[elements.length + 1];
         for (int i = 0; i < elements.length; i++) {
@@ -42,7 +41,6 @@ public class MyList<E> {
             }
         }
         elements = newElements;
-        return true;
     }
 
     public E delete(int index) {
