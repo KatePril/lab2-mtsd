@@ -2,137 +2,159 @@ package org.example;
 
 import java.util.Arrays;
 
+import static java.lang.Math.round;
+
 public class MyList<E> {
-    private E[] elements;
+    private int size;
+    private Node<E> first;
+    private Node<E> last;
 
     public MyList() {
-        elements = (E[]) new Object[0];
+        size = 0;
     }
 
     @SafeVarargs
-    public MyList(E... elements) {
-        this.elements = elements;
+    public MyList(E... els) {
+        for (E el : els) {
+            append(el);
+        }
     }
 
     public int length() {
-        return elements.length;
+        return size;
     }
 
     public void append(E element) {
-        E[] newElements = (E[]) new Object[elements.length + 1];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
-        newElements[elements.length] = element;
-        elements = newElements;
+        if (size == 0) {
+            first = new Node<>(element);
+            last = first;
+            first.setNext(last);
+            last.setPrev(first);
+        } else {
+            Node<E> newNode = new Node<>(element);
+
+            last.setNext(newNode);
+            newNode.setPrev(last);
+            last = newNode;
+        }
+        size++;
     }
 
     public void insert(E element, int index) {
         checkIndex(index);
-        E[] newElements = (E[]) new Object[elements.length + 1];
-        for (int i = 0; i < elements.length; i++) {
-            if (i < index) {
-                newElements[i] = elements[i];
-            }
-            if (i == index) {
-                newElements[i] = element;
-                newElements[i+1] = elements[i];
-            }
-            if (i > index) {
-                newElements[i+1] = elements[i];
-            }
-        }
-        elements = newElements;
+        Node<E> currentNode = getCurrentNode(index);
+
+        Node<E> newNode = new Node<>(element);
+        newNode.setNext(currentNode);
+        newNode.setPrev(currentNode.getPrev());
+        currentNode.getPrev().setNext(newNode);
+        currentNode.setPrev(newNode);
+        size++;
     }
 
     public E delete(int index) {
         checkIndex(index);
-        E[] newElements = (E[]) new Object[elements.length - 1];
-        E tmp = elements[index];
+        E value = first.getValue();
+        if (index == 0) {
+            first = first.getNext();
+        } else {
+            Node<E> currentNode = getCurrentNode(index);
+            value = currentNode.getValue();
 
-        for (int i = 0; i < elements.length; i++) {
-            if (i < index) {
-                newElements[i] = elements[i];
-            }
-            if (i > index) {
-                newElements[i-1] = elements[i];
-            }
+            currentNode.getPrev().setNext(currentNode.getNext());
+            currentNode.getNext().setPrev(currentNode.getPrev());
         }
-        elements = newElements;
-        return tmp;
+        size--;
+
+        return value;
     }
 
     public E[] deleteAll(E element) {
-        int occurrencesNum = 0;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                occurrencesNum++;
-            }
-        }
-        if (occurrencesNum == 0) {
-            return (E[]) new Object[0];
-        }
+        E[] deletedElements = (E[]) new Object[0];
+        Node<E> currentNode = first;
 
-        E[] newElements = (E[]) new Object[elements.length - occurrencesNum];
-        E[] deletedElements = (E[]) new Object[occurrencesNum];
-        occurrencesNum = 0;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                deletedElements[occurrencesNum] = elements[i];
-                occurrencesNum++;
-            } else {
-                newElements[i - occurrencesNum] = elements[i];
+        while (currentNode != null) {
+            if (currentNode.getValue().equals(element)) {
+                deletedElements = Arrays.copyOf(deletedElements, deletedElements.length + 1);
+                deletedElements[deletedElements.length - 1] = currentNode.getValue();
+
+                currentNode.getPrev().setNext(currentNode.getNext());
+                currentNode.getNext().setPrev(currentNode.getPrev());
+                size--;
             }
+            currentNode = currentNode.getNext();
         }
-        elements = newElements;
         return deletedElements;
     }
 
     public E get(int index) {
         checkIndex(index);
-        return elements[index];
+        return getCurrentNode(index).getValue();
     }
 
+
     public MyList<E> clone() {
-        E[] newElements = (E[]) new Object[elements.length];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
+        E[] newElements = (E[]) new Object[length()];
+        for (int i = 0; i < length(); i++) {
+            newElements[i] = get(i);
+        }
         return new MyList<>(newElements);
     }
 
     public void reverse() {
-        E[] newElements = (E[]) new Object[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-            newElements[i] = elements[elements.length - 1 - i];
+        int half = round(length() / 2);
+        Node<E> currentBeginning = first;
+        Node<E> currentEnd = last;
+        for (int i = 0; i < half; i++) {
+            E tmp = currentBeginning.getValue();
+            currentBeginning.setValue(currentEnd.getValue());
+            currentEnd.setValue(tmp);
+
+            currentBeginning = currentBeginning.getNext();
+            currentEnd = currentEnd.getPrev();
         }
-        elements = newElements;
     }
 
     public int findFirst(E element) {
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                return i;
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentNode != null) {
+            if (currentNode.getValue().equals(element)) {
+                return currentIndex;
             }
+            currentIndex++;
+            currentNode = currentNode.getNext();
         }
+
         return -1;
     }
 
     public int findLast(E element) {
-        int index = -1;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                index = i;
+        int currentIndex = length() - 1;
+        Node<E> currentNode = last;
+
+        while (currentIndex >= 0) {
+            if (currentNode.getValue().equals(element)) {
+                return currentIndex;
             }
+            currentIndex--;
+            currentNode = currentNode.getPrev();
         }
-        return index;
+
+        return currentIndex;
     }
 
     public void clear() {
-        elements = (E[]) new Object[0];
+        size = 0;
+        first = null;
+        last = null;
     }
 
     public void extend(MyList<E> list) {
-        E[] newElements = (E[]) new Object[elements.length + list.length()];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
-        if (list.length() >= 0) System.arraycopy(list.elements, 0, newElements, 0 + elements.length, list.length());
-        elements = newElements;
+        for (int i = 0; i < list.length(); i++) {
+            append(list.get(i));
+        }
     }
 
     private void checkIndex(int index) {
@@ -141,8 +163,28 @@ public class MyList<E> {
         }
     }
 
+    private Node<E> getCurrentNode(int index) {
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentIndex < index) {
+            currentNode = currentNode.getNext();
+            currentIndex++;
+        }
+
+        return currentNode;
+    }
+
     public String toString() {
-        return Arrays.toString(elements);
+        E[] list = (E[]) new Object[length()];
+        Node<E> currentNode = first;
+        int i = 0;
+        while (currentNode != null) {
+            list[i] = currentNode.getValue();
+            currentNode = currentNode.getNext();
+            i++;
+        }
+        return Arrays.toString(list);
     }
 
 }
