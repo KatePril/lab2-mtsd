@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.Arrays;
 
+import static java.lang.Math.round;
+
 public class MyList<E> {
     private E[] elements;
 
@@ -64,28 +66,20 @@ public class MyList<E> {
     }
 
     public E[] deleteAll(E element) {
-        int occurrencesNum = 0;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                occurrencesNum++;
-            }
-        }
-        if (occurrencesNum == 0) {
-            return (E[]) new Object[0];
-        }
+        E[] deletedElements = (E[]) new Object[0];
+        Node<E> currentNode = first;
 
-        E[] newElements = (E[]) new Object[elements.length - occurrencesNum];
-        E[] deletedElements = (E[]) new Object[occurrencesNum];
-        occurrencesNum = 0;
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].equals(element)) {
-                deletedElements[occurrencesNum] = elements[i];
-                occurrencesNum++;
-            } else {
-                newElements[i - occurrencesNum] = elements[i];
+        while (currentNode != null) {
+            if (currentNode.getValue().equals(element)) {
+                deletedElements = Arrays.copyOf(deletedElements, deletedElements.length + 1);
+                deletedElements[deletedElements.length - 1] = currentNode.getValue();
+
+                currentNode.getPrev().setNext(currentNode.getNext());
+                currentNode.getNext().setPrev(currentNode.getPrev());
+                size--;
             }
+            currentNode = currentNode.getNext();
         }
-        elements = newElements;
         return deletedElements;
     }
 
@@ -104,11 +98,17 @@ public class MyList<E> {
     }
 
     public void reverse() {
-        E[] newElements = (E[]) new Object[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-            newElements[i] = elements[elements.length - 1 - i];
+        int half = round(length() / 2);
+        Node<E> currentBeginning = first;
+        Node<E> currentEnd = last;
+        for (int i = 0; i < half; i++) {
+            E tmp = currentBeginning.getValue();
+            currentBeginning.setValue(currentEnd.getValue());
+            currentEnd.setValue(tmp);
+
+            currentBeginning = currentBeginning.getNext();
+            currentEnd = currentEnd.getPrev();
         }
-        elements = newElements;
     }
 
     public int findFirst(E element) {
