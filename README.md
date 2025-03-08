@@ -43,7 +43,7 @@ Run the created jar file:
 java -jar target\lab2-1.0-SNAPSHOT.jar
 ```
 ## Commit with failed tests
-(https://github.com/KatePril/lab2-mtsd/commit/7728eb807d6786251b2ff2f6d4742a147eb09fbf)[link to the commit] with resulted in errors while testing as a part of CI pipeline 
+[link to the commit](https://github.com/KatePril/lab2-mtsd/commit/7728eb807d6786251b2ff2f6d4742a147eb09fbf) with resulted in errors while testing as a part of CI pipeline 
 
 ## Conclusion
 Despite the project being neither big nor complex, the unit tests turned out to be extrimely helpful. Firstly, I managed to find three bugs at the first list implementation with a help of unit tests. Secondly, while refactoring the application, I relied on unit tests so as to ensure the smoth and correct work of the unit tests.
