@@ -123,4 +123,17 @@ public class TestMyList {
     }
 
 
+    @Test
+    public void testReverse() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+        list.reverse();
+
+        assertEquals("c", list.get(0));
+        assertEquals("b", list.get(1));
+        assertEquals("a", list.get(2));
+    }
+
 }
