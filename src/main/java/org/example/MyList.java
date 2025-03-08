@@ -5,8 +5,13 @@ import java.util.Arrays;
 public class MyList<E> {
     private E[] elements;
 
+    private int size;
+    private Node<E> first;
+    private Node<E> last;
+
     public MyList() {
         elements = (E[]) new Object[0];
+        size = 0;
     }
 
     @SafeVarargs
@@ -15,10 +20,25 @@ public class MyList<E> {
     }
 
     public int length() {
-        return elements.length;
+        return size;
     }
 
     public void append(E element) {
+        if (size == 0) {
+            first = new Node<>(element);
+            last = first;
+            first.next = last;
+            last.prev = first;
+        } else {
+            Node<E> newNode = new Node<>(element);
+            newNode.next = last;
+            newNode.prev = last.prev;
+            last.prev.next = newNode;
+            last.prev = newNode;
+        }
+        size++;
+
+        // TODO delete the code below
         E[] newElements = (E[]) new Object[elements.length + 1];
         System.arraycopy(elements, 0, newElements, 0, elements.length);
         newElements[elements.length] = element;
