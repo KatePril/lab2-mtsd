@@ -136,4 +136,30 @@ public class TestMyList {
         assertEquals("a", list.get(2));
     }
 
+    @Test
+    public void testFindFirst() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+        list.append("b");
+        list.append("d");
+
+        assertEquals(-1, list.findFirst("x"));
+        assertEquals(1, list.findFirst("b"));
+    }
+
+    @Test
+    public void testFindLast() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+        list.append("b");
+        list.append("d");
+
+        assertEquals(-1, list.findLast("x"));
+        assertEquals(3, list.findLast("b"));
+    }
+
 }
