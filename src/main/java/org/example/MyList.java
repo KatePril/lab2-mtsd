@@ -108,8 +108,17 @@ public class MyList<E> {
 
     public E get(int index) {
         checkIndex(index);
-        return elements[index];
+        int currentIndex = 0;
+        Node<E> currentNode = first;
+
+        while (currentIndex < index) {
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+
+        return currentNode.value;
     }
+
 
     public MyList<E> clone() {
         E[] newElements = (E[]) new Object[elements.length];
