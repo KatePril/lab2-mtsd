@@ -54,4 +54,46 @@ public class TestMyList {
         assertThrows(IndexOutOfBoundsException.class, () -> list.insert("d", 4));
     }
 
+    @Test
+    public void testDelete() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+
+        String removed = list.delete(1);
+        assertEquals("b", removed);
+        assertEquals(2, list.length());
+        assertEquals("c", list.get(1));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> list.delete(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.delete(4));
+
+        removed = list.delete(0);
+        assertEquals("a", removed);
+        assertEquals(1, list.length());
+    }
+
+    @Test
+    public void testDeleteAll() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+        list.append("c");
+        list.append("b");
+        list.append("d");
+        list.append("e");
+
+        Object[] removed = list.deleteAll("x");
+        assertEquals(6, list.length());
+        assertEquals(0, removed.length);
+
+        removed = list.deleteAll("b");
+        assertEquals(4, list.length());
+        assertEquals(2, removed.length);
+        assertArrayEquals(new Object[] {"b", "b"}, removed);
+        assertEquals("c", list.get(1));
+        assertEquals("d", list.get(2));
+    }
+
 }
