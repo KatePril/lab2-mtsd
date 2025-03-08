@@ -5,14 +5,11 @@ import java.util.Arrays;
 import static java.lang.Math.round;
 
 public class MyList<E> {
-    private E[] elements;
-
     private int size;
     private Node<E> first;
     private Node<E> last;
 
     public MyList() {
-        elements = (E[]) new Object[0];
         size = 0;
     }
 
@@ -172,7 +169,15 @@ public class MyList<E> {
     }
 
     public String toString() {
-        return Arrays.toString(elements);
+        E[] list = (E[]) new Object[length()];
+        Node<E> currentNode = first;
+        int i = 0;
+        while (currentNode != null) {
+            list[i] = currentNode.getValue();
+            currentNode = currentNode.getNext();
+            i++;
+        }
+        return Arrays.toString(list);
     }
 
 }
