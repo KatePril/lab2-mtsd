@@ -27,14 +27,14 @@ public class MyList<E> {
         if (size == 0) {
             first = new Node<>(element);
             last = first;
-            first.next = last;
-            last.prev = first;
+            first.setNext(last);
+            last.setPrev(first);
         } else {
             Node<E> newNode = new Node<>(element);
-            newNode.next = last;
-            newNode.prev = last.prev;
-            last.prev.next = newNode;
-            last.prev = newNode;
+            newNode.setNext(last);
+            newNode.setPrev(last.getPrev());
+            last.getPrev().setNext(newNode);
+            last.setPrev(newNode);
         }
         size++;
 
@@ -50,28 +50,21 @@ public class MyList<E> {
         Node<E> currentNode = getCurrentNode(index);
 
         Node<E> newNode = new Node<>(element);
-        newNode.next = currentNode;
-        newNode.prev = currentNode.prev;
-        currentNode.prev.next = newNode;
-        currentNode.prev = newNode;
+        newNode.setNext(currentNode);
+        newNode.setPrev(currentNode.getPrev());
+        currentNode.getPrev().setNext(newNode);
+        currentNode.setPrev(newNode);
 
     }
 
     public E delete(int index) {
         checkIndex(index);
-        E[] newElements = (E[]) new Object[elements.length - 1];
-        E tmp = elements[index];
+        Node<E> currentNode = getCurrentNode(index);
+        currentNode.getPrev().setNext(currentNode.getNext());
+        currentNode.getNext().setPrev(currentNode.getPrev());
 
-        for (int i = 0; i < elements.length; i++) {
-            if (i < index) {
-                newElements[i] = elements[i];
-            }
-            if (i > index) {
-                newElements[i-1] = elements[i];
-            }
-        }
-        elements = newElements;
-        return tmp;
+        return currentNode.getValue();
+
     }
 
     public E[] deleteAll(E element) {
@@ -102,7 +95,7 @@ public class MyList<E> {
 
     public E get(int index) {
         checkIndex(index);
-        return getCurrentNode(index).value;
+        return getCurrentNode(index).getValue();
     }
 
 
@@ -161,7 +154,7 @@ public class MyList<E> {
         Node<E> currentNode = first;
 
         while (currentIndex < index) {
-            currentNode = currentNode.next;
+            currentNode = currentNode.getNext();
             currentIndex++;
         }
 
