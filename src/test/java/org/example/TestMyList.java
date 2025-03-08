@@ -162,4 +162,23 @@ public class TestMyList {
         assertEquals(3, list.findLast("b"));
     }
 
+    @Test
+    public void testExtend() {
+        MyList<String> list = new MyList<>();
+        list.append("a");
+        list.append("b");
+
+        MyList<String> secondList = new MyList<>();
+        secondList.append("c");
+        secondList.append("d");
+
+        assertEquals(2, list.length());
+        list.extend(secondList);
+        assertEquals(4, list.length());
+        assertEquals("a", list.get(0));
+        assertEquals("b", list.get(1));
+        assertEquals("c", list.get(2));
+        assertEquals("d", list.get(3));
+    }
+
 }
